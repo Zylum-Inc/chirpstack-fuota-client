@@ -1,4 +1,4 @@
-# Chirpstack Client
+# Chirpstack FUOTA Client
 
 This client is used by the Thin application server for interacting with Chirpstack and FUOTA server.
 
