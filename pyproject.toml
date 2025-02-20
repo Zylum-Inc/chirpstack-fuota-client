@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "chirpstack_client"
-version = "0.0.1"
+name = "chirpstack_fuota_client"
+version = "0.1.1"
 description = ""
-authors = ["Shivam Shandilya <vyogami@gmail.com>"]
+authors = ["Shivam Shandilya <vyogami@gmail.com>", "Sidd Gupta sidd.gupta@zylum.in"]
 readme = "README.md"
 packages = [
-  {include = "chirpstack_client", from = "src"}
+  {include = "chirpstack_fuota_client", from = "src"}
 ]
 
 [tool.poetry.dependencies]
