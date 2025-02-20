@@ -17,8 +17,8 @@ def setup_logging(level=logging.INFO, **kwargs):
     logging.getLogger("google").setLevel(logging.WARNING)
     logging.getLogger("urllib3").setLevel(logging.WARNING)
 
-    # Create logger for chirpstack_client
-    logger = logging.getLogger("chirpstack_client")
+    # Create logger for chirpstack_fuota_client
+    logger = logging.getLogger("chirpstack_fuota_client")
     logger.setLevel(level)
 
     return logger

@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from rich import print
 from rich.traceback import install
 
-from chirpstack_client import FuotaService, FuotaUtils
+from chirpstack_fuota_client import FuotaService, FuotaUtils
 
 install()
 load_dotenv()
