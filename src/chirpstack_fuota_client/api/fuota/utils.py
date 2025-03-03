@@ -2,7 +2,28 @@ from Crypto.Cipher import AES
 from google.protobuf import duration_pb2
 
 from ...proto.fuota import fuota_pb2
+from datetime import datetime, timezone
 
+def convert_timestamp(timestamp, fmt="iso"):
+    if fmt == "iso":
+        return timestamp_to_iso(timestamp)
+    elif fmt == "epoch":
+        return timestamp_to_epoch(timestamp)
+    else:
+        raise ValueError("Invalid timestamp format. Must be 'iso' or 'epoch'")
+
+def timestamp_to_iso(timestamp):
+    if timestamp:
+        return datetime.fromtimestamp(
+            timestamp.seconds + timestamp.nanos / 1e9,
+            tz=timezone.utc
+        ).isoformat()
+    return None
+
+def timestamp_to_epoch(timestamp):
+    if timestamp:
+        return int(timestamp.seconds + timestamp.nanos / 1e9)
+    return None
 
 class FuotaUtils:
     @staticmethod
@@ -103,3 +124,47 @@ class FuotaUtils:
             mc_root_key = FuotaUtils.get_mc_root_key_for_gen_app_key(gen_app_key)
             deployment_devices.append(fuota_pb2.DeploymentDevice(dev_eui=dev_eui, mc_root_key=mc_root_key))
         return deployment_devices
+
+
+    @staticmethod
+    def serialize_deployment_status(deployment_status, fmt="iso"):
+        """Convert protobuf deployment status to serializable dict"""
+        status_response = {
+            "created_at": convert_timestamp(deployment_status.created_at, fmt),
+            "updated_at": convert_timestamp(deployment_status.updated_at, fmt),
+            "mc_group_setup_completed_at": convert_timestamp(deployment_status.mc_group_setup_completed_at, fmt),
+            "mc_session_completed_at": convert_timestamp(deployment_status.mc_session_completed_at, fmt),
+            "frag_session_setup_completed_at": convert_timestamp(deployment_status.frag_session_setup_completed_at, fmt),
+            "enqueue_completed_at": convert_timestamp(deployment_status.enqueue_completed_at, fmt),
+            "frag_status_completed_at": convert_timestamp(deployment_status.frag_status_completed_at, fmt),
+            "device_status": []
+        }
+
+        for device_status in deployment_status.device_status:
+            device_info = {
+                "dev_eui": device_status.dev_eui,
+                "created_at": convert_timestamp(device_status.created_at, fmt),
+                "updated_at": convert_timestamp(device_status.updated_at, fmt),
+                "mc_group_setup_completed_at": convert_timestamp(device_status.mc_group_setup_completed_at, fmt),
+                "mc_session_completed_at": convert_timestamp(device_status.mc_session_completed_at, fmt),
+                "frag_session_setup_completed_at": convert_timestamp(device_status.frag_session_setup_completed_at, fmt),
+                "frag_status_completed_at": convert_timestamp(device_status.frag_status_completed_at, fmt)
+            }
+            status_response["device_status"].append(device_info)
+
+        return status_response
+
+    @staticmethod
+    def serialize_device_logs(device_logs, fmt="iso"):
+        """Convert protobuf device logs to serializable dict"""
+        logs = \
+            [
+                {
+                    "created_at": convert_timestamp(log.created_at, fmt),
+                    "f_port": log.f_port,
+                    "command": log.command,
+                    "fields": dict(log.fields)
+                }
+                for log in device_logs.logs
+            ]
+        return logs
