@@ -12,8 +12,6 @@ from .api.integration import IntegrationService
 from .api.tenant import TenantService
 from .utils.logging import setup_logging
 
-logger = setup_logging(level=logging.DEBUG)
-
 __all__ = [
     "ApplicationService",
     "DeviceProfileService",

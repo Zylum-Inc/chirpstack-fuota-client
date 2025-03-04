@@ -1,7 +1,7 @@
 import logging
 import sys
 
-LOG_FORMAT = "CHIRPSTACK-CLIENT - %(levelname)s: \t%(message)s"
+LOG_FORMAT = "CHIRPSTACK-FUOTA-CLIENT - %(levelname)s: \t%(message)s"
 
 
 def setup_logging(level=logging.INFO, **kwargs):
@@ -19,6 +19,8 @@ def setup_logging(level=logging.INFO, **kwargs):
 
     # Create logger for chirpstack_fuota_client
     logger = logging.getLogger("chirpstack_fuota_client")
+    logger.setLevel(logging.WARNING)
+    logger.info("Logging initialized with level %s", logging.getLevelName(level))
     logger.setLevel(level)
 
     return logger
