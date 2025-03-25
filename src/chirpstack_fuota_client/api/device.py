@@ -1,5 +1,6 @@
 import grpc
 from chirpstack_api import api
+import logging
 
 from ..utils.helpers import auth_header, create_channel
 
@@ -251,7 +252,8 @@ class DeviceService:
         Raises:
             Exception: If queueing fails
         """
-        data = data.encode()
+        if isinstance(data, str):
+            data = data.encode()
         req = api.EnqueueDeviceQueueItemRequest(
             queue_item=api.DeviceQueueItem(dev_eui=dev_eui, f_port=fport, data=data, **kwargs)
         )

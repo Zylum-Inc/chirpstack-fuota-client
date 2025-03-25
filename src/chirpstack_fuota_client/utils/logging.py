@@ -4,7 +4,7 @@ import sys
 LOG_FORMAT = "CHIRPSTACK-FUOTA-CLIENT - %(levelname)s: \t%(message)s"
 
 
-def setup_logging(level=logging.CRITICAL, **kwargs):
+def setup_logging(level=logging.DEBUG, **kwargs):
     """Configure logging for the chirpstack client.
 
     Args:
