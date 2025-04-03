@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "chirpstack_fuota_client"
-version = "0.1.14"
+version = "0.1.15"
 description = ""
 authors = ["Shivam Shandilya <vyogami@gmail.com>", "Sidd Gupta sidd.gupta@zylum.in"]
 readme = "README.md"
